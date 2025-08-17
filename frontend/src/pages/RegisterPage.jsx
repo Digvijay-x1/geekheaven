@@ -1,37 +1,36 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { CodeXml , Eye, EyeOff  } from 'lucide-react'
-import {  useMutation, useQueryClient } from "@tanstack/react-query";
-import { signup } from '../lib/api'
-import { AxiosError } from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import { CodeXml, Eye, EyeOff } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signup } from "../lib/api";
+import { AxiosError } from "axios";
 
-import { useState } from 'react'
-import toast from 'react-hot-toast';
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const [signupData , setSignupData] = useState({
+  const [signupData, setSignupData] = useState({
     fullname: "",
     email: "",
     password: "",
   });
 
-  
-
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-
-  const {mutate: signupMutation, isPending , error } = useMutation({
-  mutationFn: signup,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey :["authUser"]} )
-    navigate("/dashboard");
-    toast.success("Registration successful!");
-  }
-  })
-
+  const {
+    mutate: signupMutation,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/dashboard");
+      toast.success("Registration successful!");
+    },
+  });
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -39,9 +38,7 @@ const RegisterPage = () => {
   };
 
   return (
-     <div
-      className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-    >
+    <div className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* SIGNUP FORM - LEFT SIDE */}
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
@@ -52,20 +49,25 @@ const RegisterPage = () => {
               HypeCode
             </span>
           </div>
-          {/* Error message */}
+          {/* ERROR MESSAGE DISPLAY */}
           {error && (
-            <div className='alert alert-error mb-4'>
+            <div className="alert alert-error mb-4">
               <span>
-  {error && (error as AxiosError)?.response?.data?.message}
-</span>
+                {error?.response?.data?.message ||
+                  error.message ||
+                  "Login failed"}
+              </span>
             </div>
           )}
+
           <div className="w-full">
             <form onSubmit={handleSignup}>
               <div className="space-y-4">
                 <div>
                   <h2 className="text-xl font-semibold">Create an Account</h2>
-                  <p className="text-sm opacity-70 ">Join HypeCode to start your programming learning adventure!</p>
+                  <p className="text-sm opacity-70 ">
+                    Join HypeCode to start your programming learning adventure!
+                  </p>
                 </div>
                 <div className="space-y-3">
                   {/* FULLNAME */}
@@ -78,12 +80,17 @@ const RegisterPage = () => {
                       placeholder="John Doe"
                       className="input input-bordered w-full"
                       value={signupData.fullname}
-                      onChange={(e) => setSignupData({ ...signupData, fullname: e.target.value })}
+                      onChange={(e) =>
+                        setSignupData({
+                          ...signupData,
+                          fullname: e.target.value,
+                        })
+                      }
                       required
                     />
                   </div>
-                   {/* EMAIL */}
-                   <div className="form-control w-full">
+                  {/* EMAIL */}
+                  <div className="form-control w-full">
                     <label className="label">
                       <span className="label-text">Email</span>
                     </label>
@@ -92,7 +99,9 @@ const RegisterPage = () => {
                       placeholder="hello@gmail.com"
                       className="input input-bordered w-full"
                       value={signupData.email}
-                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                      onChange={(e) =>
+                        setSignupData({ ...signupData, email: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -101,26 +110,31 @@ const RegisterPage = () => {
                     <label className="label">
                       <span className="label-text">Password</span>
                     </label>
-                    <div className='relative'>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="********"
-                      className="input input-bordered w-full"
-                      value={signupData.password}
-                      onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base-content/50 hover:text-base-content"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <Eye className="w-5 h-5" />
-                      ) : (
-                        <EyeOff className="w-5 h-5" />
-                      )}
-                    </button>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="********"
+                        className="input input-bordered w-full"
+                        value={signupData.password}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            password: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base-content/50 hover:text-base-content"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
                     </div>
                     <p className="text-xs opacity-70 mt-1">
                       Password must be at least 6 characters long
@@ -128,11 +142,20 @@ const RegisterPage = () => {
                   </div>
                   <div className="form-control">
                     <label className="label cursor-pointer justify-start gap-2">
-                      <input type="checkbox" className="checkbox checkbox-sm" required />
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        required
+                      />
                       <span className="text-xs leading-tight">
                         I agree to the{" "}
-                        <span className="text-primary hover:underline">terms of service</span> and{" "}
-                        <span className="text-primary hover:underline">privacy policy</span>
+                        <span className="text-primary hover:underline">
+                          terms of service
+                        </span>{" "}
+                        and{" "}
+                        <span className="text-primary hover:underline">
+                          privacy policy
+                        </span>
                       </span>
                     </label>
                   </div>
@@ -164,13 +187,20 @@ const RegisterPage = () => {
           <div className="max-w-md p-8">
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
+              <img
+                src="/i.png"
+                alt="Language connection illustration"
+                className="w-full h-full"
+              />
             </div>
 
             <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">Join now and start practicing</h2>
+              <h2 className="text-xl font-semibold">
+                Join now and start practicing
+              </h2>
               <p className="opacity-70">
-                Join thousands of developers on their coding journey and practice thousands of questions 
+                Join thousands of developers on their coding journey and
+                practice thousands of questions
               </p>
             </div>
           </div>
@@ -178,6 +208,6 @@ const RegisterPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default RegisterPage
+export default RegisterPage;
