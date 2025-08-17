@@ -20,3 +20,28 @@ export const logout = async () => {
     return response.data;
 }
 
+export const getContent = async () => {
+    const response = await axiosInstance.get("/content");
+    return response.data; 
+}
+
+export const updateBookmarks = async (questionId) => {
+    // Adding error handling and ensuring questionId is valid
+    if (!questionId) {
+        throw new Error('Question ID is required');
+    }
+    
+    try {
+        // Updated the endpoint to match the backend route
+        const response = await axiosInstance.post(`/user/bookmarks/${questionId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating bookmark:', error);
+        throw error;
+    }
+}
+
+export const getBookmarks = async () => {
+    const response = await axiosInstance.get("/user/bookmarks");
+    return response.data ; 
+}
