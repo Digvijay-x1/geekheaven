@@ -4,12 +4,17 @@ import { connectDB } from "./lib/db.js";
 import dotenv from "dotenv"; 
 import UserRoutes from "./routes/user.route.js"
 import ContentRoutes from "./routes/content.route.js"
-import cookieParser from "cookie-parser";       
+import cookieParser from "cookie-parser";      
+import cors from "cors"; 
 dotenv.config(); 
 const app = express()
 
 app.use(cookieParser())
 app.use(express.json()); // preserve the json 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 
 
 // define routes 
