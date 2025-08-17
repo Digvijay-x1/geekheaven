@@ -15,7 +15,7 @@ export const toggleBookMarks = async (req,res) => {
         // find if the question exists 
         const questionExists = await Question.findById(questionId);
         if (!questionExists) {
-            return res.status(404).json({ message: "Question not found" });
+            return res.status(404).json({ message: "Question not found in line 18 " });
         }
 
         // Toggle bookmark
@@ -33,7 +33,7 @@ export const toggleBookMarks = async (req,res) => {
     } catch (error) {
         console.error("error toggling bookmarks" , error); 
         return res.status(500).json({
-            message: "internal server error" 
+            message: "internal server error in updatebookmarks" 
         })
     }
 }
