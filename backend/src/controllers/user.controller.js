@@ -4,8 +4,13 @@ import Question  from "../models/question.model.js";
 
 export const toggleBookMarks = async (req,res) => {
     try {
-        const   questionId = req.params.id; 
+        const questionId = req.params.id;
         const userId = req.user.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
         // find if the question exists 
         const questionExists = await Question.findById(questionId);
@@ -14,10 +19,7 @@ export const toggleBookMarks = async (req,res) => {
         }
 
         // Toggle bookmark
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+        
 
         const isBookmarked = user.bookmarks.includes(questionId);
         if (isBookmarked) {
