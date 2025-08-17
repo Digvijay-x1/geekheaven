@@ -1,5 +1,5 @@
 import express from "express"; 
-import {login , register } from "../controllers/auth.controllers.js";
+import {login , logout, register } from "../controllers/auth.controllers.js";
 import { authLimiter } from "../middleware/ratelimit.middleware.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
 const router = express.Router();
@@ -11,4 +11,6 @@ router.get("/me", protectRoute, (req, res) => {
   res.status(200).json({ success: true, user: req.user });
 });
 
+
+router.post("/logout", protectRoute, logout) 
 export default router; 
