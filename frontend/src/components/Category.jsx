@@ -10,9 +10,12 @@ import {
 import useCategoryStore from "../stores/useCatagoryStore";
 import useBookmarks from "../stores/useBookmarks";
 import useAuthStore from "../stores/useAuthStore";
+import useProgress from "../stores/useProgress";
 
 const Category = () => {
   const { bookmarkMutate } = useBookmarks();
+
+  const { progressMutate } = useProgress();
 
   const { authUser } = useAuthStore();
 
@@ -62,8 +65,9 @@ const Category = () => {
         {categories?.map((category) => {
           const isExpanded = expandedCategories.has(category._id);
           const completedQuestions =
-            category.questions?.filter((q) => q.status === "completed")
-              .length || 0;
+            category.questions?.filter(question => 
+    authUser?.progress?.includes(question._id)
+  ).length || 0;
           const totalQuestions = category.questions?.length || 0;
           const progressPercentage =
             totalQuestions > 0
@@ -118,7 +122,7 @@ const Category = () => {
                       Practice (Free)
                     </div>
                     <div className="col-span-1 text-center">
-                      Practice (Plus)
+                      Practice(Plus)
                     </div>
                     <div className="col-span-1 text-center">Note</div>
                     <div className="col-span-1 text-center">Revision</div>
@@ -139,9 +143,14 @@ const Category = () => {
                       <div className="col-span-1 flex justify-center">
                         <input
                           type="checkbox"
-                          checked={question.status === "completed"}
-                          className="w-4 h-4 rounded border-gray-600 bg-gray-700"
-                          readOnly
+                          checked={authUser?.progress?.includes(question._id)}
+                          onChange={() => progressMutate(question._id)}
+                          className={`w-4 h-4 rounded border-gray-600 transition-all duration-300 
+                        ${
+                            authUser?.progress?.includes(question._id)
+                        ? "bg-green-500 border-green-500"
+                        : "bg-gray-700 hover:border-green-500"
+                            }`}
                         />
                       </div>
 

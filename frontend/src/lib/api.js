@@ -45,3 +45,24 @@ export const getBookmarks = async () => {
     const response = await axiosInstance.get("/user/bookmarks");
     return response.data ; 
 }
+
+export const updateProgress = async (questionId) => {
+    // Adding error handling and ensuring questionId is valid
+    if (!questionId) {
+        throw new Error('Question ID is required');
+    }
+
+    try {
+        // Updated the endpoint to match the backend route
+        const response = await axiosInstance.post(`/user/progress/${questionId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating progress:', error);
+        throw error;
+    }
+}
+
+export const getProgress = async () => {
+    const response = await axiosInstance.get("/user/progress");
+    return response.data;   
+}
