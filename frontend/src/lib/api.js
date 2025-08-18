@@ -45,3 +45,39 @@ export const getBookmarks = async () => {
     const response = await axiosInstance.get("/user/bookmarks");
     return response.data ; 
 }
+
+export const updateProgress = async (questionId) => {
+    // Adding error handling and ensuring questionId is valid
+    if (!questionId) {
+        throw new Error('Question ID is required');
+    }
+
+    try {
+        // Updated the endpoint to match the backend route
+        const response = await axiosInstance.post(`/user/progress/${questionId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating progress:', error);
+        throw error;
+    }
+}
+
+export const getProgress = async () => {
+    const response = await axiosInstance.get("/user/progress");
+    return response.data;   
+}
+
+export const SuperContentSearch = async ({ queryKey }) => {
+  const [_key, params] = queryKey;
+  const { search, difficulty, page } = params;
+
+  const queryParams = new URLSearchParams({
+    search,
+    ...(difficulty && { difficulty }),
+    page: page || 1,
+  });
+
+  const response = await axiosInstance.get(`/content/q?${queryParams}`);
+  return response.data;
+};
+

@@ -1,8 +1,8 @@
 import express from "express"
-import { example, getContent } from "../controllers/content.controller.js";
+import { SuperContentSearch, getContent } from "../controllers/content.controller.js";
 const router = express.Router();
 
 router.get("/" , getContent ) ; 
-router.get("/ex", example);
+router.get("/q", SuperContentSearch);
 
 export default router ; 
