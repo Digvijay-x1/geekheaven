@@ -8,12 +8,12 @@ import toast from "react-hot-toast";
 const useBookmarks = () => {
     const queryClient = useQueryClient();
 
-    
-
     const { data: bookmarks } = useQuery({
         queryKey: ["bookmarks"],
         queryFn: getBookmarks
     });
+
+    
 
     const { mutate: bookmarkMutate } = useMutation({
         mutationFn: updateBookmarks,

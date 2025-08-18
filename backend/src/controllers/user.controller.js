@@ -41,7 +41,7 @@ export const toggleBookMarks = async (req,res) => {
 export const getBookMarks = async (req,res) => {
     try {
         const userId = req.user._id;
-        const bookmarks = await User.findById(userId).populate('bookmarks').lean();
+        const bookmarks = await User.findById(userId).select("bookmarks").populate('bookmarks').lean();
 
         if (!bookmarks) {
             return res.status(404).json({ message: "No bookmarks found" });

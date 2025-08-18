@@ -1,20 +1,10 @@
 import React from "react";
 import { Code, Users, Building } from "lucide-react";
+import { generateStars } from "../lib/generateStar";
 
 const HeroSection = () => {
-  // Generate random stars
-  const generateStars = (count) => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      animationDelay: Math.random() * 3,
-      animationDuration: Math.random() * 2 + 3,
-    }));
-  };
-
-  const stars = generateStars(50);
+  // stars 
+  const stars = generateStars(66);
 
   return (
     <div
@@ -24,7 +14,7 @@ const HeroSection = () => {
         dark:from-blue-900 dark:to-black
       "
     >
-      {/* Animated Stars Background */}
+      {/* Animated Stars*/}
       <div className="absolute inset-0">
         {stars.map((star) => (
           <div
@@ -42,7 +32,7 @@ const HeroSection = () => {
         ))}
       </div>
 
-      {/* Additional twinkling effect */}
+      {/* twinkling effect */}
       <div className="absolute inset-0">
         {Array.from({ length: 20 }, (_, i) => (
           <div

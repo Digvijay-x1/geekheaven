@@ -12,7 +12,7 @@ const SearchBox = () => {
   );
   const [page, setPage] = useState(parseInt(searchParams.get("page")) || 1);
 
-  // debounce effect for search
+  // debounce  for search 500 ms 
   useEffect(() => {
     const handler = setTimeout(() => {
       setSearch(input);
@@ -28,7 +28,7 @@ const SearchBox = () => {
     return () => clearTimeout(handler);
   }, [input, difficulty, setSearchParams]);
 
-  // Update URL 
+  // url update in every query 
   useEffect(() => {
     if (search) {
       setSearchParams({
