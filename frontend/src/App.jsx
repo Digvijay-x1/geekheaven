@@ -8,29 +8,22 @@ import  { Toaster } from 'react-hot-toast'
 import { useThemeStore } from "./stores/useTheme.js"
 import useAuthStore from "./stores/useAuthStore.js"
 import BookmarkPage from "./pages/BookmarkPage.jsx"
+import { useEffect } from "react"
 
 const App = () => {
 
   const {theme} = useThemeStore(); 
 
-  // const {data:authdata } = useQuery({
-  //   queryKey: ["authUser"],
-  //   queryFn: async () => {
-  //     const response = await axiosInstance.get("/auth/me");
-  //     return response.data;
-  //   },
-  //   retry: false , // auth check
-  // })
-
-  // const authUser = authdata?.user;
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const  {authUser} = useAuthStore();
-  // todo remove the console 
-  console.log(authUser);
+
 
 
   return (
-    <div className="h-screen" data-theme={theme}>
+    <div className="min-h-screen bg-background text-foreground">
       <Routes>
         <Route path='/dashboard' element={<HomePage/>}/>
         <Route path='/login' element={!authUser ?<LoginPage/>: <Navigate to="/dashboard"/>}/>

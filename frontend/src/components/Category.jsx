@@ -1,15 +1,10 @@
-import React, { useState } from "react";
-import {
-  ChevronRight,
-  ChevronDown,
-  Play,
-  Star,
-  Plus,
-} from "lucide-react";
+import { useState } from "react";
+import { ChevronRight, ChevronDown, Play, Star, Plus } from "lucide-react";
 import useCategoryStore from "../stores/useCatagoryStore";
 import useBookmarks from "../stores/useBookmarks";
 import useAuthStore from "../stores/useAuthStore";
 import useProgress from "../stores/useProgress";
+import { getDifficultyColor } from "../lib/difficultycolor";
 
 const Category = () => {
   const { bookmarkMutate } = useBookmarks();
@@ -24,12 +19,14 @@ const Category = () => {
   // Early return if no categories
   if (!categories || categories.length === 0) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen p-6 flex items-center justify-center">
+      <div className="bg-base-100 text-base-content min-h-screen p-6 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl text-gray-400 mb-2">
+          <h2 className="text-xl text-base-content/60 mb-2">
             No categories available
           </h2>
-          <p className="text-gray-500">Please check your store configuration</p>
+          <p className="text-base-content/40">
+            Please check your store configuration
+          </p>
         </div>
       </div>
     );
@@ -45,28 +42,15 @@ const Category = () => {
     setExpandedCategories(newExpanded);
   };
 
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty?.toLowerCase()) {
-      case "easy":
-        return "text-green-500";
-      case "medium":
-        return "text-orange-500";
-      case "hard":
-        return "text-red-500";
-      default:
-        return "text-gray-400";
-    }
-  };
-
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-6">
+    <div className="bg-base-100 text-base-content min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
         {categories?.map((category) => {
           const isExpanded = expandedCategories.has(category._id);
           const completedQuestions =
-            category.questions?.filter(question => 
-    authUser?.progress?.includes(question._id)
-  ).length || 0;
+            category.questions?.filter((question) =>
+              authUser?.progress?.includes(question._id)
+            ).length || 0;
           const totalQuestions = category.questions?.length || 0;
           const progressPercentage =
             totalQuestions > 0
@@ -77,16 +61,16 @@ const Category = () => {
             <div key={category._id} className="mb-4">
               {/* Category Header */}
               <div
-                className="flex items-center justify-between p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors"
+                className="flex items-center justify-between p-4 bg-base-200 rounded-lg cursor-pointer hover:bg-base-300 transition-colors"
                 onClick={() => toggleCategory(category._id)}
               >
                 <div className="flex items-center space-x-3">
                   {isExpanded ? (
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                    <ChevronDown className="w-5 h-5 text-base-content/60" />
                   ) : (
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className="w-5 h-5 text-base-content/60" />
                   )}
-                  <h2 className="text-lg font-medium text-white">
+                  <h2 className="text-lg font-medium text-base-content">
                     {category.title}
                   </h2>
                 </div>
@@ -94,13 +78,13 @@ const Category = () => {
                 <div className="flex items-center space-x-4">
                   {/* Progress Bar */}
                   <div className="flex items-center space-x-2">
-                    <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-32 h-2 bg-base-300 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-orange-500 transition-all duration-300"
                         style={{ width: `${progressPercentage}%` }}
                       />
                     </div>
-                    <span className="text-sm text-gray-400 min-w-12">
+                    <span className="text-sm text-base-content/60 min-w-12">
                       {completedQuestions} / {totalQuestions}
                     </span>
                   </div>
@@ -109,9 +93,9 @@ const Category = () => {
 
               {/* Questions List */}
               {isExpanded && (
-                <div className="mt-2 bg-gray-800 rounded-lg overflow-hidden">
+                <div className="mt-2 bg-base-200 rounded-lg overflow-hidden">
                   {/* Table Header */}
-                  <div className="grid grid-cols-12 gap-4 p-4 bg-gray-750 border-b border-gray-700 text-sm font-medium text-gray-300">
+                  <div className="grid grid-cols-12 gap-4 p-4 bg-base-300 border-b border-base-content/20 text-sm font-medium text-base-content/80">
                     <div className="col-span-1 text-center">Status</div>
                     <div className="col-span-3">Problem</div>
                     <div className="col-span-1 text-center">
@@ -136,7 +120,7 @@ const Category = () => {
                         question.id ||
                         `question-${questionIndex}`
                       }
-                      className="grid grid-cols-12 gap-4 p-4 border-b border-gray-700 hover:bg-gray-750 transition-colors"
+                      className="grid grid-cols-12 gap-4 p-4 border-b border-base-content/20 hover:bg-base-300 transition-colors"
                     >
                       {/* Status Checkbox */}
                       <div className="col-span-1 flex justify-center">
@@ -144,18 +128,18 @@ const Category = () => {
                           type="checkbox"
                           checked={authUser?.progress?.includes(question._id)}
                           onChange={() => progressMutate(question._id)}
-                          className={`w-4 h-4 rounded border-gray-600 transition-all duration-300 
+                          className={`w-4 h-4 rounded border-base-content/40 transition-all duration-300 
                         ${
-                            authUser?.progress?.includes(question._id)
-                        ? "bg-green-500 border-green-500"
-                        : "bg-gray-700 hover:border-green-500"
-                            }`}
+                          authUser?.progress?.includes(question._id)
+                            ? "bg-green-500 border-green-500"
+                            : "bg-base-300 hover:border-green-500"
+                        }`}
                         />
                       </div>
 
                       {/* Problem Title */}
                       <div className="col-span-3">
-                        <span className="text-white hover:text-orange-500 cursor-pointer">
+                        <span className="text-base-content hover:text-orange-500 cursor-pointer">
                           {question.title}
                         </span>
                         {question.tags && (
@@ -166,7 +150,7 @@ const Category = () => {
                                     key={`${
                                       question._id || question.id || "q"
                                     }-tag-${index}`}
-                                    className="px-2 py-0.5 bg-gray-700 text-xs rounded text-gray-300"
+                                    className="px-2 py-0.5 bg-base-300 text-xs rounded text-base-content/80"
                                   >
                                     {tag}
                                   </span>
@@ -177,7 +161,7 @@ const Category = () => {
                                     key={`${
                                       question._id || question.id || "q"
                                     }-tag-${index}`}
-                                    className="px-2 py-0.5 bg-gray-700 text-xs rounded text-gray-300"
+                                    className="px-2 py-0.5 bg-base-300 text-xs rounded text-base-content/80"
                                   >
                                     {tag.trim()}
                                   </span>
@@ -242,7 +226,7 @@ const Category = () => {
 
                       {/* Note */}
                       <div className="col-span-1 flex justify-center">
-                        <button className="text-gray-400 hover:text-white">
+                        <button className="text-base-content/60 hover:text-base-content">
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
@@ -270,7 +254,7 @@ const Category = () => {
                       {/* Difficulty */}
                       <div className="col-span-2 flex justify-center items-center">
                         <span
-                          className={`px-3 py-1  text-sm font-medium ${getDifficultyColor(
+                          className={`px-3 py-1  text-sm font-medium  ${getDifficultyColor(
                             question.difficulty
                           )}`}
                         >

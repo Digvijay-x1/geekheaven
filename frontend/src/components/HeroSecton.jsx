@@ -4,7 +4,7 @@ import { generateStars } from "../lib/generateStar";
 
 const HeroSection = () => {
   // stars 
-  const stars = generateStars(66);
+  const stars = generateStars(96);
 
   return (
     <div

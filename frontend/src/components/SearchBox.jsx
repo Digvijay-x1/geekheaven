@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useCategoryStore from "../stores/useCatagoryStore";
 import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import { getDifficultyColor } from "../lib/difficultycolor";
 
 const SearchBox = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,7 +60,7 @@ const SearchBox = () => {
   const difficultyOptions = ["Easy", "Medium", "Hard"];
 
   return (
-    <div className="p-4 bg-gray-900 text-white">
+    <div className="p-4 bg-base-100 text-base-content">
       <div className="mb-4">
         <div className="mb-2 font-semibold">Search Questions</div>
         <div className="flex gap-4">
@@ -69,7 +70,7 @@ const SearchBox = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Search by title..."
-              className="w-full border p-2 pr-8 rounded bg-gray-800 border-gray-700 text-white"
+              className="w-full border p-2 pr-8 rounded bg-base-200 border-base-300 text-base-content"
             />
             {input && (
               <button
@@ -79,7 +80,7 @@ const SearchBox = () => {
                   setSearch("");
                   setSearchParams({});
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-base-content/60 hover:text-base-content"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -88,7 +89,7 @@ const SearchBox = () => {
           <select
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
-            className="border p-2 rounded bg-gray-800 border-gray-700 text-white"
+            className="border p-2 rounded bg-base-200 border-base-300 text-base-content"
           >
             <option value="">All Difficulties</option>
             {difficultyOptions.map((option) => (
@@ -102,13 +103,13 @@ const SearchBox = () => {
 
       {IsQueryLoading && (
         <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-base-content"></div>
         </div>
       )}
 
       {!IsQueryLoading && query && (
         <div className="mt-4 space-y-6">
-          <div className="flex justify-between text-sm text-gray-400">
+          <div className="flex justify-between text-sm text-base-content/60">
             <span>Found {query.totalQuestions} results</span>
             <span>
               Page {query.currentPage} of {query.totalPages}
@@ -119,21 +120,17 @@ const SearchBox = () => {
             {query.data?.map((question) => (
               <div
                 key={question._id}
-                className="p-5 bg-gray-800 rounded-lg hover:bg-gray-750 transition-colors border border-gray-700"
+                className="p-5 bg-base-200 rounded-lg hover:bg-base-300 transition-colors border border-base-300"
               >
                 {/* Title and Difficulty */}
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-medium text-white leading-tight flex-1 mr-4">
+                  <h3 className="text-lg font-medium text-base-content leading-tight flex-1 mr-4">
                     {question.title}
                   </h3>
                   <span
-                    className={`px-3 py-1 text-sm font-medium rounded-full flex-shrink-0 ${
-                      question.difficulty === "Easy"
-                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                        : question.difficulty === "Medium"
-                        ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                        : "bg-red-500/20 text-red-400 border border-red-500/30"
-                    }`}
+                    className={`px-3 py-1 text-sm font-medium rounded flex-shrink-0 ${getDifficultyColor(
+                            question.difficulty
+                          )}`}
                   >
                     {question.difficulty}
                   </span>
@@ -143,7 +140,7 @@ const SearchBox = () => {
                 <div className="flex items-center gap-6 mb-4 flex-wrap">
                   {/* YouTube Link */}
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-400 text-sm font-medium">Tutorial:</span>
+                    <span className="text-base-content/60 text-sm font-medium">Tutorial:</span>
                     {question.yt_link ? (
                       <a
                         href={question.yt_link}
@@ -164,7 +161,7 @@ const SearchBox = () => {
                   {/* Practice Links */}
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm font-medium">Practice Free:</span>
+                      <span className="text-base-content/60 text-sm font-medium">Practice Free:</span>
                       {question.p1_link ? (
                         <a
                           href={question.p1_link}
@@ -180,7 +177,7 @@ const SearchBox = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm font-medium">Practice Plus:</span>
+                      <span className="text-base-content/60 text-sm font-medium">Practice Plus:</span>
                       {question.p2_link ? (
                         <a
                           href={question.p2_link}
@@ -199,15 +196,15 @@ const SearchBox = () => {
 
                 {/* Tags Section */}
                 {question.tags && question.tags.length > 0 && (
-                  <div className="border-t border-gray-700 pt-3">
+                  <div className="border-t border-base-300 pt-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-gray-400 text-sm font-medium">Tags:</span>
+                      <span className="text-base-content/60 text-sm font-medium">Tags:</span>
                     </div>
                     <div className="flex gap-2 flex-wrap">
                       {question.tags.map((tag, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-gray-700 text-sm rounded-full text-gray-300 border border-gray-600 hover:bg-gray-600 transition-colors"
+                          className="px-3 py-1 bg-base-300 text-sm rounded-full text-base-content/80 border border-base-content/20 hover:bg-base-content/10 transition-colors"
                         >
                           {tag}
                         </span>
@@ -226,14 +223,14 @@ const SearchBox = () => {
               disabled={page === 1}
               className={`p-3 rounded-lg transition-colors ${
                 page === 1
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-700 text-white hover:bg-gray-600"
+                  ? "bg-base-200 text-base-content/40 cursor-not-allowed"
+                  : "bg-base-200 text-base-content hover:bg-base-300"
               }`}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
 
-            <span className="text-gray-300 font-medium px-4">
+            <span className="text-base-content/80 font-medium px-4">
               Page {query.currentPage} of {query.totalPages}
             </span>
 
@@ -242,8 +239,8 @@ const SearchBox = () => {
               disabled={page === query.totalPages}
               className={`p-3 rounded-lg transition-colors ${
                 page === query.totalPages
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-700 text-white hover:bg-gray-600"
+                  ? "bg-base-200 text-base-content/40 cursor-not-allowed"
+                  : "bg-base-200 text-base-content hover:bg-base-300"
               }`}
             >
               <ChevronRight className="w-5 h-5" />
