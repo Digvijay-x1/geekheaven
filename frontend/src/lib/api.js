@@ -66,3 +66,9 @@ export const getProgress = async () => {
     const response = await axiosInstance.get("/user/progress");
     return response.data;   
 }
+
+export const SuperContentSearch = async ({ queryKey }) => {
+  const [_key, searchParams] = queryKey;  
+  const response = await axiosInstance.get("/content/q", { params: searchParams });
+  return response.data;
+};
