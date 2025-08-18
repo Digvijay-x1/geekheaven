@@ -122,7 +122,7 @@ const Category = () => {
                       Practice (Free)
                     </div>
                     <div className="col-span-1 text-center">
-                      Practice(Plus)
+                      Practice (Plus)
                     </div>
                     <div className="col-span-1 text-center">Note</div>
                     <div className="col-span-1 text-center">Revision</div>

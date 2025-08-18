@@ -1,26 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { getContent, SuperContentSearch } from "../lib/api";
-import toast from "react-hot-toast";
 
-const useCategoryStore = (search) => {
+
+const useCategoryStore = ({ search = "", difficulty = "", page = 1 } = {}) => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: getContent
   });
 
-  const { data: query, isLoading: IsQueryLoading } = useQuery({
-    queryKey: ["queryKey", { search }], 
+    const { data: query, isLoading: IsQueryLoading } = useQuery({
+    queryKey: ["queryKey", { search, difficulty, page }],
     queryFn: SuperContentSearch,
-    enabled: !!search, 
-    onSuccess: (data) => {
-      console.log("the queries are", data);
-    },
-    onError: () => {
-      toast.error("Invalid Query");
-    }
+    enabled: !!search,
   });
 
   return { categories, isLoading, query, IsQueryLoading };
 };
 
 export default useCategoryStore;
+

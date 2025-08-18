@@ -11,7 +11,7 @@ export const getContent = async (req , res) => {
 
 export const SuperContentSearch = async (req , res) => {
    try {
-        const { search, difficulty, page = 1, limit = 10 } = req.query;
+        const { search, difficulty, page = 1, limit = 5 } = req.query;
         
         if (!search) {
             return res.status(400).json({
@@ -28,7 +28,7 @@ export const SuperContentSearch = async (req , res) => {
         // Build the query object
         let queryObject = {
             title: {
-                $regex: search,
+                $regex: search.trim(),
                 $options: "i"
             }
         };
