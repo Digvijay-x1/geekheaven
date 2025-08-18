@@ -5,7 +5,6 @@ import {
   Play,
   Star,
   Plus,
-  UserStar,
 } from "lucide-react";
 import useCategoryStore from "../stores/useCatagoryStore";
 import useBookmarks from "../stores/useBookmarks";

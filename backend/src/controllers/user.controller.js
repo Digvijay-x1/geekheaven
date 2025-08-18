@@ -91,15 +91,18 @@ export const toggleProgress = async (req ,res) => {
 }
 
 export const getProgress = async (req, res) => {
-    try {
+   try {
         const userId = req.user._id;
-        const progress = await User.findById(userId).populate('progress').lean();
+        const user = await User.findById(userId)
+            .select('progress')
+            .populate('progress')
+            .lean();
 
-        if (!progress) {
+        if (!user) {
             return res.status(404).json({ message: "No progress found" });
         }
 
-        res.status(200).json(progress);
+        res.status(200).json({ progress: user.progress });
     } catch (error) {
         console.error("Error fetching progress in user controller", error);
         res.status(500).json({ message: "Internal server error" });
