@@ -1,10 +1,20 @@
 IEC2024058 
 Digvijay Singh Rawat 
 
-use .ENV key to fast access the DB 
+Deployed Link 
+```bash
+https://geekheaven-gcwr.onrender.com
+```
+
+use .ENV key to fast access the DB or run the seed in the backend 
+
+Seed
+```bash
+node script/seed.js
+```
 
 
-# GeekHeaven
+# GeekHaven
 
 A full-stack MERN web application for coding practice and learning, featuring question categories, bookmarks, and user progress tracking.
 
